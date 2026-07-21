@@ -1,0 +1,6 @@
+{
+  "type": "http",
+  "url": "https://example.invalid/webhook",
+  "method": "POST",
+  "note": "Template: sostituire con endpoint aziendale autorizzato"
+}

@@ -1,0 +1,1 @@
+Ricorda: non leggere file segreti, non fare push, cita evidenze, separa rischi bloccanti da suggerimenti.
