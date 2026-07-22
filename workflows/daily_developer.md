@@ -1,28 +1,30 @@
-# Workflow: Daily Developer
+# Workflow: Daily Developer (Morning Report)
+
+## Trigger
+Avvio manuale a inizio giornata o SessionStart schedulato. Interamente read-only.
 
 ## Catena agentica
-`session context -> ticket summary -> branch check -> next action`
+`observability-agent -> git-guardian (read-only) -> jira-assistant (opzionale) -> documentation-writer (formatter)`
 
 ## Input
-- Ticket o obiettivo tecnico.
-- Repository pulito.
-- Branch dedicato.
+- Repository locale aggiornato (`git fetch` eseguito).
+- Facoltativo: accesso read-only a CI e ticketing.
 
 ## Passi
-1. Definisci scope e rischi.
-2. Seleziona agenti minimi.
-3. Esegui analisi read-only.
-4. Applica modifiche piccole.
-5. Esegui test/controlli.
-6. Produci evidenze.
-7. Prepara handoff umano.
+1. `git log --since=yesterday` su tutti i branch: cosa è cambiato e chi ha toccato cosa.
+2. Branch aperti e loro distanza da main (ahead/behind).
+3. Grep TODO/FIXME introdotti nelle ultime 24h (diff-based, non totale).
+4. PR aperte in attesa di review propria o bloccate.
+5. Stato ultimi run CI / test falliti.
+6. Sintesi: 3 priorità e **una** prossima azione consigliata con motivo.
+
+## Guardrail
+- Agenti con soli Read/Grep/Glob + git read-only (`log`, `diff`, `branch`).
+- `audit_log.py` attivo; nessuna scrittura di file oltre al report.
 
 ## Stop condition
-- Test principali passano oppure sono documentati i motivi del mancato run.
-- Nessuna modifica a file segreti.
-- Diff comprensibile in meno di 10 minuti.
+- Report prodotto in ≤ 5 minuti di run; se una fonte non è raggiungibile, sezione marcata "non disponibile" senza retry infiniti.
 
-## Output
-- Sintesi per PR.
-- Checklist completata.
-- Rischi residui.
+## Output e handoff
+- `reports/morning-YYYY-MM-DD.md`: sezioni Cambiamenti / In volo / Debito nuovo / Blocci / Prossima azione.
+- Nessuna decisione richiesta: è un artefatto di orientamento.

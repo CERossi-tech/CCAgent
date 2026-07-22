@@ -1,28 +1,32 @@
 # Workflow: Database Change
 
+## Trigger
+Necessità di modifica schema/dati: nuova colonna, indice, migrazione.
+
 ## Catena agentica
-`sql-reviewer -> performance-engineer -> tester -> release-manager`
+`spring-architect -> sql-reviewer -> (developer: main session) -> test-generator -> security-auditor -> documentation-writer`
 
 ## Input
-- Ticket o obiettivo tecnico.
-- Repository pulito.
-- Branch dedicato.
+- Obiettivo della modifica e volumetria attesa della tabella.
+- Ambiente: SOLO sviluppo/demo. Mai credenziali di produzione nel contesto.
 
 ## Passi
-1. Definisci scope e rischi.
-2. Seleziona agenti minimi.
-3. Esegui analisi read-only.
-4. Applica modifiche piccole.
-5. Esegui test/controlli.
-6. Produci evidenze.
-7. Prepara handoff umano.
+1. **Architect**: valuta impatto — compatibilità all'indietro, downtime, ordine deploy/migrazione (expand-contract se breaking).
+2. Scrittura migrazione versionata (Flyway/Liquibase): script `up` + strategia di rollback esplicita.
+3. **Sql-reviewer**: controlla la migrazione — lock attesi, indici, tipi, default su tabelle grandi, idempotenza.
+4. **Test-generator**: test di migrazione (schema before/after) e test dei repository toccati.
+5. Esecuzione su DB locale/demo; verifica con query di controllo SELECT-only.
+6. **Security-auditor**: nessun dato sensibile negli script/seed; permessi DB minimi.
+7. **Documentation-writer**: aggiorna doc schema/ADR se la modifica è architetturale (skill adr-writing).
+
+## Guardrail
+- Hook `pretool_sql_select_only.py` per ogni accesso interattivo al DB: mutazioni solo via migrazione versionata.
+- Denylist: `DROP`, `TRUNCATE` fuori da file di migrazione revisionati.
 
 ## Stop condition
-- Test principali passano oppure sono documentati i motivi del mancato run.
-- Nessuna modifica a file segreti.
-- Diff comprensibile in meno di 10 minuti.
+- Migrazione applicata e rollback testato su DB demo; test verdi.
+- Nessuna mutazione eseguita fuori dai file di migrazione.
 
-## Output
-- Sintesi per PR.
-- Checklist completata.
-- Rischi residui.
+## Output e handoff
+- File migrazione + rollback, esito test, note di deploy (ordine, durata lock stimata).
+- Decisione umana: pianificazione dell'applicazione in ambienti superiori.
