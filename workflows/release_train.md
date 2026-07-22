@@ -1,28 +1,31 @@
 # Workflow: Release Train
 
+## Trigger
+Cadenza di release raggiunta (sprint/settimana) o release on-demand approvata.
+
 ## Catena agentica
-`git guardian -> test-generator -> release-manager -> documentation-writer`
+`release-manager (lead) -> git-guardian -> security-auditor (gate) -> test-generator (smoke) -> documentation-writer -> confluence-writer (annuncio)`
 
 ## Input
-- Ticket o obiettivo tecnico.
-- Repository pulito.
-- Branch dedicato.
+- Range: `ultimo-tag..HEAD`.
+- Criteri di rilascio del progetto (definition of releasable).
 
 ## Passi
-1. Definisci scope e rischi.
-2. Seleziona agenti minimi.
-3. Esegui analisi read-only.
-4. Applica modifiche piccole.
-5. Esegui test/controlli.
-6. Produci evidenze.
-7. Prepara handoff umano.
+1. **Git-guardian**: verifica branch di release pulito, nessun commit fuori processo, nessun file sensibile nel range.
+2. **Release-manager**: raccoglie commit/PR del range; classifica (skill release-notes); identifica breaking.
+3. **Gate security**: workflow security_review in modalità rapida sul range; Critical aperti bloccano il treno.
+4. **Smoke**: esecuzione suite completa + smoke test; esiti allegati.
+5. **Release-manager**: propone versione (semver in base ai contenuti), tag message e release notes.
+6. **Umano**: crea tag e pubblica. L'agente non pusha e non pubblica MAI.
+7. **Confluence-writer**: annuncio interno con TL;DR e link.
+
+## Guardrail
+- Hook `pretool_branch_guard.sh` (solo branch release), conferma umana su qualunque `git tag`/`push`.
+- Un breaking non documentato con migrazione = stop del treno.
 
 ## Stop condition
-- Test principali passano oppure sono documentati i motivi del mancato run.
-- Nessuna modifica a file segreti.
-- Diff comprensibile in meno di 10 minuti.
+- Checklist releasable completa: test verdi, gate pass, notes pronte, versione approvata.
+- Qualsiasi item fallito → la release slitta, il report spiega perché.
 
-## Output
-- Sintesi per PR.
-- Checklist completata.
-- Rischi residui.
+## Output e handoff
+- Release notes, tag message, esiti test, verdetto gate; azione umana: tag+publish.

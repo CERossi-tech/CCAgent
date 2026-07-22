@@ -1,28 +1,29 @@
 # Workflow: Architecture Decision
 
+## Trigger
+Scelta tecnica strutturante: framework, pattern, boundary tra servizi, storage, contratto.
+
 ## Catena agentica
-`spring-architect -> security-auditor -> performance-engineer -> adr writer`
+`spring-architect (lead) -> codebase-cartographer -> security-auditor (consulto) -> documentation-writer (ADR)`
 
 ## Input
-- Ticket o obiettivo tecnico.
-- Repository pulito.
-- Branch dedicato.
+- Problema da decidere, in una frase.
+- Vincoli noti (budget, competenze team, compliance, deadline).
 
 ## Passi
-1. Definisci scope e rischi.
-2. Seleziona agenti minimi.
-3. Esegui analisi read-only.
-4. Applica modifiche piccole.
-5. Esegui test/controlli.
-6. Produci evidenze.
-7. Prepara handoff umano.
+1. **Architect**: formula la decisione come domanda chiusa; se emergono due domande, split in due ADR.
+2. **Cartographer**: evidenze dal codice reale — come si fa oggi, quanto costa cambiare, cosa si rompe.
+3. **Architect**: minimo 2 alternative reali oltre alla proposta (inclusa "non fare nulla" quando sensata); per ognuna pro/contro/costo di rollback.
+4. **Security-auditor**: implicazioni di sicurezza di ogni alternativa (superficie, dati, dipendenze nuove).
+5. Raccomandazione motivata dell'architect; la DECISIONE è umana (review del documento).
+6. **Documentation-writer** (skill adr-writing): ADR numerato in `docs/adr/`; stato `proposta` finché l'umano non approva.
+
+## Guardrail
+- Tutto read-only: questo workflow non modifica codice.
+- Ogni claim sul codebase cita file/evidenza; niente "si sa che...".
 
 ## Stop condition
-- Test principali passano oppure sono documentati i motivi del mancato run.
-- Nessuna modifica a file segreti.
-- Diff comprensibile in meno di 10 minuti.
+- ADR completo (contesto, decisione proposta, ≥2 alternative, conseguenze, rollback) e leggibile in < 3 minuti.
 
-## Output
-- Sintesi per PR.
-- Checklist completata.
-- Rischi residui.
+## Output e handoff
+- ADR in stato `proposta` + sintesi per la discussione di team; decisione e cambio stato: umani.
