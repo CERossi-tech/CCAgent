@@ -4,9 +4,9 @@ Corso pratico da 3 ore sulla modalità agentica di Claude Code, con focus su sub
 
 ## Deliverable inclusi
 
-- `slides/Claude_Code_Agent_Engineering_Enterprise_v2.pptx`
+- `slides/Claude_Code_Agent_Engineering_Enterprise_v2.pptx` — 43 slide con sintesi a piè di slide, riferimenti ai file del kit e note relatore complete
 - `manual/Manuale_Claude_Code_Agent_Engineering_v2.docx`
-- `docs/` materiali docente e studente (incluso `SPEECH_SLIDES.md`: discorso completo per ognuna delle 44 slide)
+- `docs/` materiali docente e studente (incluso `SPEECH_SLIDES.md`: discorso completo per ognuna delle 43 slide, e `GUIDA_OPERATIVA.md`: installazione e collaudo di agenti, hook, skill e workflow)
 - `agents/` 24 agenti pronti all'uso
 - `hooks/` 18 hook/script di guardrail e automazione
 - `skills/` 10 skill operative
@@ -23,7 +23,7 @@ Non insegnare solo un comando, ma un metodo: trasformare Claude Code in un orche
 
 1. Aprire le slide.
 2. Leggere `docs/AGENDA_180_MIN.md`.
-3. Copiare `.claude/` dentro un repository demo.
+3. Seguire `docs/GUIDA_OPERATIVA.md` per installare agenti, hook e skill in `.claude/` di un repository demo.
 4. Eseguire i laboratori in ordine.
 5. Adattare policy, hook e permission per il proprio contesto aziendale.
 
