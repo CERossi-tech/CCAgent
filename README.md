@@ -6,7 +6,7 @@ Corso pratico da 3 ore sulla modalità agentica di Claude Code, con focus su sub
 
 - `slides/Claude_Code_Agent_Engineering_Enterprise_v2.pptx`
 - `manual/Manuale_Claude_Code_Agent_Engineering_v2.docx`
-- `docs/` materiali docente e studente
+- `docs/` materiali docente e studente (incluso `SPEECH_SLIDES.md`: discorso completo per ognuna delle 44 slide)
 - `agents/` 24 agenti pronti all'uso
 - `hooks/` 18 hook/script di guardrail e automazione
 - `skills/` 10 skill operative
